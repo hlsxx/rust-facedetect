@@ -3,13 +3,24 @@ mod window;
 
 use crate::capture::Capture;
 use crate::window::Window;
-use opencv::core::{Rect, Scalar, Size, Vector};
-use opencv::{highgui, imgproc, objdetect, prelude::*};
+use opencv::{
+    core::{
+        Rect,
+        Scalar,
+        Size,
+        Vector,
+        AlgorithmHint::ALGO_HINT_DEFAULT,
+    },
+    highgui,
+    imgproc,
+    objdetect,
+    prelude::*
+};
 
 type Result<T> = opencv::Result<T>;
 
 const WINDOW_NAME: &str = "OpenCV Face Detection in Rust";
-const CASCADE_XML_FILE: &str = "assets/haarcascades/haarcascade_frontalface_alt.xml";
+const CASCADE_XML_FILE: &str = "haarcascade_frontalface_alt.xml";
 
 const DEFAULT_CAPTURE_WIDTH: i32 = 800;
 const DEFAULT_CAPTURE_HEIGHT: i32 = 600;
@@ -131,7 +142,7 @@ fn preprocess_image(frame: &Mat) -> Result<Mat> {
 
 fn convert_to_grayscale(frame: &Mat) -> Result<Mat> {
     let mut gray = Mat::default();
-    imgproc::cvt_color(frame, &mut gray, imgproc::COLOR_BGR2GRAY, 0)?;
+    imgproc::cvt_color(frame, &mut gray, imgproc::COLOR_BGR2GRAY, 0, ALGO_HINT_DEFAULT)?;
     Ok(gray)
 }
 
